@@ -58,14 +58,14 @@ module.exports = sequelize => {
       comment: null,
       field: "cpf"
     },
-    idEndereco: {
+    enderecoId: {
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "idEndereco",
+      field: "enderecoId",
       references: {
         key: "enderecoId",
         model: "endereco_model"

@@ -51,7 +51,7 @@ module.exports = sequelize => {
     },
     categoriaId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,

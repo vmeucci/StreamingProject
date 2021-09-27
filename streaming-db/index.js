@@ -36,7 +36,6 @@ app.get("/endereco/:id", (request, response) => {
         .catch((error) => response.send(error));
 });
 
-
 //Inicia o servidor express
 //Execute o comando "node. index.js" para inicia-lo
 app.listen(8080, (request, response) => {
