@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
-import Catalogo from '../views/Catalogo.vue'
+import CatalogoSeries from '../views/CatalogoSeries.vue'
+import CatalogoFilmes from '../views/CatalogoFilmes.vue'
 
 Vue.use(VueRouter)
 
@@ -18,9 +19,14 @@ const routes = [
     component: Login,
   },
   {
-    path: '/catalogo',
-    name: 'Catalogo',
-    component: Catalogo,
+    path: '/catalogo-series',
+    name: 'CatalogoSeries',
+    component: CatalogoSeries,
+  },
+  {
+    path: '/catalogo-filmes',
+    name: 'CatalogoFilmes',
+    component: CatalogoFilmes,
   },
 ]
 
