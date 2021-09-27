@@ -26,13 +26,6 @@ const getAll = (request, response) => {
             "nome",
         ],
         raw: true,
-        include: [
-            {
-                model: Categoria,
-                required: true,
-                attributes: [],
-            },
-        ],
     })
         .then((object) => {
             console.log(object);
