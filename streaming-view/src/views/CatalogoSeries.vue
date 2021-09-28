@@ -4,15 +4,17 @@
     <b-button @click="criarSerie()" variant="primary">
       <b-icon icon="plus-square"></b-icon>
     </b-button>
-    
+
     <b-table striped hover :items="items" :fields="fields">
       <template v-slot:Cell(editar)="linhaSerie">
-        <b-button @click="editarSerie(linhaSerie)">Editar</b-button>
+        <b-button v-on:click="editarSerie(linhaSerie.item)">Editar</b-button>
       </template>
     </b-table>
 
-    <b-modal v-bind:id="modalData.id">
-      <MinhaSerieEditor></MinhaSerieEditor>
+    <b-modal @hide="resetaModalData()" v-bind:id="modalData.id" :title="modalData.title">
+      <MinhaSerieEditor
+        v-bind:serieToEdit="modalData.content" v-bind:callback="modalData.callback"
+      ></MinhaSerieEditor>
     </b-modal>
   </div>
 </template>
@@ -22,47 +24,65 @@ import MinhaSerieEditor from "@/components/MinhaSerieEditor.vue";
 export default {
   name: "CatalogoSeries",
   components: {
-    MinhaSerieEditor
+    MinhaSerieEditor,
   },
-  data(){
+  data() {
     return {
       items: [
-        {
-          titulo: "The walking dead", 
-          subtitulo: "", 
-          episodios: 100, 
-          sinopse: "Série com temática pós-apocalíptica e zumbis", 
-          classificacaoIndicativa: "16 anos"
+        /*{
+          titulo: "The walking dead",
+          subtitulo: "",
+          episodios: 100,
+          sinopse: "Série com temática pós-apocalíptica e zumbis",
+          classificacaoIndicativa: "16 anos",
         },
         {
-          titulo: "The Mandalorian", 
-          subtitulo: "Uma história Star Wars", 
-          episodios: 20, 
-          sinopse: "Acontecimentos baseados no fim no império galáctico", 
-          classificacaoIndicativa: "14 anos"
+          titulo: "The Mandalorian",
+          subtitulo: "Uma história Star Wars",
+          episodios: 20,
+          sinopse: "Acontecimentos baseados no fim no império galáctico",
+          classificacaoIndicativa: "14 anos",
         },
         {
-          titulo: "Invencible", 
-          subtitulo: "", 
-          episodios: 10, 
-          sinopse: "Animação de uma visão deturpada de heróis", 
-          classificacaoIndicativa: "18 anos"
-        },
+          titulo: "Invencible",
+          subtitulo: "",
+          episodios: 10,
+          sinopse: "Animação de uma visão deturpada de heróis",
+          classificacaoIndicativa: "18 anos",
+        }*/
       ],
-      fields: ["titulo", "subtitulo", "episodios", "sinopse", "classificacaoIndicativa", "editar"],
+      fields: ["titulo","subtitulo","episodios","sinopse","classificacaoIndicativa","editar"],
       modalData: {
-        id:"modal-minhaserie"
-      }
+        id: "modal-minhaserie",
+        content: null,
+        title: "",
+        callback: null
+      },
     };
   },
-  methods:{
-    criarSerie(){
+  methods: {
+    criarSerie() {
+      this.modalData.title = "Adicionar uma nova série";
+      this.modalData.callback = () => {
+
+      }
+      this.$root.$emit("bv::show::modal", this.modalData.id);
+      
+    },
+
+    editarSerie(linhaSerie) {
+      this.modalData.content = linhaSerie;
+      this.modalData.title = 'Edite a série "' + linhaSerie.titulo + '"';
+      this.modalData.callback = () => {
+
+      }
+
       this.$root.$emit("bv::show::modal", this.modalData.id);
     },
 
-    editarSerie(linhaSerie){
-      console.log(linhaSerie);
-      this.$root.$emit("bv::show::modal", this.modalData.id);
+    resetaModalData(){
+      this.modalData.content = null;
+      this.modalData.title = "";
     }
   }
 };

@@ -58,20 +58,42 @@
 
 <script>
 export default {
+  props: {
+    serieToEdit: {
+        titulo: String,
+        subtitulo: String,
+        episodios: Number,
+        sinopse: String,
+        classificacaoIndicativa: String
+    },
+    callback: Function
+  },
+
   data() {
     return {
       serie_model: {
-        titulo: "The Mandalorian",
-        subtitulo: "Uma história Star Wars",
-        episodios: 20,
-        sinopse: "Acontecimentos baseados no fim no império galáctico",
-        classificacaoIndicativa: "14 anos",
+        titulo: "Título da série",
+        subtitulo: "Subtítulo da série",
+        episodios: 10,
+        sinopse: "Sinopse da série",
+        classificacaoIndicativa: "Classificação indicativa da série"
       },
     };
   },
+  mounted(){
+      if(this.serieToEdit){
+          this.serie_model.titulo = this.serieToEdit.titulo;
+          this.serie_model.subtitulo = this.serieToEdit.subtitulo;
+          this.serie_model.episodios = this.serieToEdit.episodios;
+          this.serie_model.sinopse = this.serieToEdit.sinopse;
+          this.serie_model.classificacaoIndicativa = this.serieToEdit.classificacaoIndicativa;
 
+      }
+  },
   methods: {
-    onSubmit() {},
+    onSubmit() {
+        this.callback(this.serie_model);
+    },
   },
 };
 </script>
