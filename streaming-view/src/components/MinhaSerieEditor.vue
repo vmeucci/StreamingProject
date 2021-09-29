@@ -51,7 +51,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Editar</b-button>
+      <b-button type="submit" variant="primary">Salvar</b-button>
     </b-form>
   </div>
 </template>
@@ -64,6 +64,7 @@ export default {
         subtitulo: String,
         episodios: Number,
         sinopse: String,
+        categoriaId: Number,
         classificacaoIndicativa: String
     },
     callback: Function
@@ -92,7 +93,9 @@ export default {
   },
   methods: {
     onSubmit() {
-        this.callback(this.serie_model);
+        this.callback({
+            id: this.serieToEdit ? this.serieToEdit.categoriaId : 0, 
+            data: this.serie_model});
     },
   },
 };

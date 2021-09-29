@@ -3,10 +3,10 @@ const serieController = require("../controllers/serie.controller.js");
 
 const routes = express.Router();
 
-routes.post("/serie", serieController.create);
-routes.get("/serie/:id", serieController.getById);
-routes.get("/serie", serieController.getAll);
-routes.delete("/serie/:id", serieController.deleteById);
-routes.put("/serie/:id", serieController.alterById);
+routes.post("/catalogo-series", serieController.create);
+routes.get("/catalogo-series/:id", serieController.getById);
+routes.get("/catalogo-series", serieController.getAll);
+routes.delete("/catalogo-series/:id", serieController.deleteById);
+routes.put("/catalogo-series/:id", serieController.alterById);
 
 module.exports = routes;

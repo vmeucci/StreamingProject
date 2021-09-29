@@ -1,6 +1,7 @@
 const express = require("express");
 const models = require("./models");
-const routes = require("./routes");
+const routes = require("./routes/serie.routes.js");
+const cors = require("cors");
 
 //Cria um aplicativo express
 const app = express();
@@ -13,12 +14,13 @@ const Endereco = models.endereco_model;
 
 //Habilita o middleware que converte o corpo da requisição para JSON
 app.use(express.json());
+app.use(cors());
 
 //Configura as rotas dentro da aplicação express.
 app.use("/api", routes);
 
 //Exemplo de POST para um endereco
-app.post("/endereco", (request, response) => {
+app.post("/catalogo-series", (request, response) => {
     Endereco.create(request.body)
         .then((object) => {
             response.send(object.DataValues);
@@ -27,7 +29,7 @@ app.post("/endereco", (request, response) => {
 });
 
 //Exemplo de GET para um endereco dado um id
-app.get("/endereco/:id", (request, response) => {
+app.get("/catalogo-series/:id", (request, response) => {
     Endereco.findByPk(request.params.id)
         .then((object) => {
             console.log(object);

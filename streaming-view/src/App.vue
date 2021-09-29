@@ -1,17 +1,22 @@
 <template>
   <div id="app">
-    <MenuLateral></MenuLateral>
+    <MenuLateral v-if="renderMenu()"></MenuLateral>
     <router-view />
   </div>
 </template>
 
 
+
 <script>
 import MenuLateral from "@/components/MenuLateral.vue";
 
-
 export default {
   components: { MenuLateral },
+  methods: {
+    renderMenu(){
+      return !this.$route.matched.some(record => record.meta.notRenderMenu) 
+    }
+  }
 };
 </script>
 <style>
