@@ -1,7 +1,6 @@
 const express = require("express");
 const models = require("./models");
-const routes = require("./routes/serie.routes.js");
-const cors = require("cors");
+const routes = require("./routes");
 
 //Cria um aplicativo express
 const app = express();
@@ -14,37 +13,30 @@ const Endereco = models.endereco_model;
 
 //Habilita o middleware que converte o corpo da requisição para JSON
 app.use(express.json());
-app.use(cors());
 
 //Configura as rotas dentro da aplicação express.
 app.use("/api", routes);
 
 //Exemplo de POST para um endereco
-app.post("/catalogo-series", (request, response) => {
-    Endereco.create(request.body)
-        .then((object) => {
-            response.send(object.DataValues);
-        })
-        .catch((error) => response.send(error));
+app.post("/endereco", (request, response) => {
+  Endereco.create(request.body)
+    .then((object) => {
+      response.send(object.DataValues);
+    })
+    .catch((error) => response.send(error));
 });
 
 //Exemplo de GET para um endereco dado um id
-app.get("/catalogo-series/:id", (request, response) => {
-    Endereco.findByPk(request.params.id)
-        .then((object) => {
-            console.log(object);
-            response.send(object.dataValues);
-        })
-        .catch((error) => response.send(error));
+app.get("/endereco/:id", (request, response) => {
+  Endereco.findByPk(request.params.id)
+    .then((object) => {
+      console.log(object);
+      response.send(object.dataValues);
+    })
+    .catch((error) => response.send(error));
 });
 
-//Inicia o servidor express
-//Execute o comando "node. index.js" para inicia-lo
-app.listen(8081, (request, response) => {
-    console.log("[streaming-db] Estamos no ar e ao vivo!!");
-
+app.listen(8080, (request, response) => {
+  console.log("Estamos no ar e ao vivo!!");
 });
 
-if (process.env.NODE_ENV !== 'production') {
-    require('longjohn');
-};

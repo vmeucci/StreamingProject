@@ -4,46 +4,36 @@
       <b-form-group label="Título da série:" label-for="serie-titulo">
         <b-form-input
           id="serie-titulo"
-          v-model="serie_model.titulo"
-          :placeholder="serie_model.titulo"
+          v-model="editSerieData.serie_model.titulo"
+          :placeholder="editSerieData.serie_model.titulo"
         ></b-form-input>
       </b-form-group>
-
       <b-form-group label="Subtítulo da série:" label-for="serie-subtitulo">
         <b-form-input
           id="serie-subtitulo"
-          v-model="serie_model.subttitulo"
-          :placeholder="serie_model.subtitulo"
+          v-model="editSerieData.serie_model.subtitulo"
+          :placeholder="editSerieData.serie_model.subtitulo"
         ></b-form-input>
       </b-form-group>
-
-      <b-form-group
-        label="Quantidades de episódios da série:"
-        label-for="serie-episodios"
-      >
+      <b-form-group label="Episódios:" label-for="serie-episodios">
         <b-form-spinbutton
           id="serie-episodios"
           v-model="serie_model.episodios"
           :placeholder="serie_model.episodios"
           min="1"
-          max="100"
+          max="1000"
         ></b-form-spinbutton>
       </b-form-group>
-
       <b-form-group label="Sinopse:" label-for="serie-sinopse">
         <b-form-textarea
           id="serie-sinopse"
-          v-model="serie_model.sinopse"
-          :placeholder="serie_model.sinopse"
+          v-model="editSerieData.serie_model.sinopse"
+          :placeholder="editSerieData.serie_model.sinopse"
           rows="3"
-          max-rows="6"
+          max-rows="7"
         ></b-form-textarea>
       </b-form-group>
-
-      <b-form-group
-        label="Classificação indicativa da série:"
-        label-for="serie-classificacaoIndicativa"
-      >
+      <b-form-group label="Classificação indicativa:" label-for="serie-classificacaoIndicativa">
         <b-form-input
           id="serie-classificacaoIndicativa"
           v-model="serie_model.classificacaoIndicativa"
@@ -51,51 +41,56 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Salvar</b-button>
+      <b-button type="submit" variant="primary">Modificar</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
+//import axios from "axios";
 export default {
+  name: "EditSerie",
   props: {
-    serieToEdit: {
-        titulo: String,
-        subtitulo: String,
-        episodios: Number,
-        sinopse: String,
-        categoriaId: Number,
-        classificacaoIndicativa: String
+    serie: {
+      titulo: String,
+      subtitulo: String,
+      episodios: Number,
+      sinopse: String,
+      //categoriaId: Object,
+      classificacaoIndicativa: String,
     },
-    callback: Function
+    modalTarget: String,
+    callback: Function,
   },
-
   data() {
     return {
-      serie_model: {
-        titulo: "Título da série",
-        subtitulo: "Subtítulo da série",
-        episodios: 10,
-        sinopse: "Sinopse da série",
-        classificacaoIndicativa: "Classificação indicativa da série"
+      editserieData: {
+        serie_model: {
+          titulo: "Título da série",
+          subtitulo: "Subtítulo",
+          episodios: 1,
+          sinopse: "Sinopse",
+          //categoria: "" Ainda não envia!
+          classificacaoIndicativa: "Classificação indicativa",
+        },
       },
     };
   },
-  mounted(){
-      if(this.serieToEdit){
-          this.serie_model.titulo = this.serieToEdit.titulo;
-          this.serie_model.subtitulo = this.serieToEdit.subtitulo;
-          this.serie_model.episodios = this.serieToEdit.episodios;
-          this.serie_model.sinopse = this.serieToEdit.sinopse;
-          this.serie_model.classificacaoIndicativa = this.serieToEdit.classificacaoIndicativa;
-
-      }
+  mounted() {
+    if(this.serie) {
+      this.editSerieData.serie_model.titulo = this.serie.titulo;
+      this.editSerieData.serie_model.subtitulo = this.serie.subtitulo;
+      this.editSerieData.serie_model.episodios = this.serie.episodios;
+      this.editSerieData.serie_model.sinopse = this.serie.sinopse;
+      // this.serie_model.categoriaId = Object.assign({}, this.serie.categoriaId;
+      this.editSerieData.serie_model.classificacaoIndicativa = this.serie.classificacaoIndicativa;
+    }
   },
   methods: {
-    onSubmit() {
-        this.callback({
-            id: this.serieToEdit ? this.serieToEdit.categoriaId : 0, 
-            data: this.serie_model});
+    onSubmit(evt) {
+      evt.preventDefault();
+      this.callback(evt, this.editSerieData);
+      this.$emit("exit", true);
     },
   },
 };

@@ -1,34 +1,63 @@
 <template>
   <div>
-    <b-button v-b-toggle.streaming-menu>Abrir Menu</b-button>
-    <b-sidebar id="streaming-menu" title="Sidebar" shadow>
+    <b-button v-b-toggle.menu>Abrir Opções</b-button>
+    <b-sidebar id="menu" title="Menu" shadow>
       <div class="px-3 py-2">
-        <b-nav-item to="/">Home</b-nav-item>
-        <b-nav-item to="/login">Login de usuário</b-nav-item>
-        <b-nav-item to="/endereco">Endereços</b-nav-item>
-        <b-nav-item to="/categoria">Categorias</b-nav-item>
-        <b-nav-item to="/catalogo-series">Catálogo de Séries</b-nav-item>
-        <b-nav-item to="/catalogo-filmes">Catálogo de Filmes</b-nav-item>
-        <a href="" @click="logout">Logout</a>
+        <b-nav vertical class>
+          <b-nav-item
+            v-for="item in itensMenu"
+            :activate="item.name === 'Home'"
+            :to="item.link"
+            v-bind:key="item.name.toLowerCase() + '-nav-item'"
+          >
+            <b-icon v-bind:icon="item.icon"></b-icon>
+            <span>{{ item.name }}</span>
+          </b-nav-item>
+          <a href="" @click="logout">Logout</a>
+        </b-nav>
       </div>
     </b-sidebar>
-  </div> 
+  </div>
 </template>
 
 <script>
 export default {
   name: "MenuLateral",
+  data() {
+    return {
+      itensMenu: [
+        { name: "Home", icon: "house-fill", link: "/" },
+        {
+          name: "Endereços",
+          icon: "book-half",
+          link: "/endereco",
+        },
+        { name: "Categorias", icon: "award-fill", link: "/categoria" },
+        { name: "Login de usuário", icon: "award-fill", link: "/login" },
+        {
+          name: "Catálogo de Filmes",
+          icon: "bookmarks",
+          link: "/catalogo-filmes",
+        },
+        {
+          name: "Catálogo de Séries",
+          icon: "bookmarks",
+          link: "/catalogo-series",
+        },
+      ],
+    };
+  },
   methods: {
-    logout(){
-      this.$http.get("/api/logout")
-      .then(() => {
-        this.$router.push("/login");
-      })
-      .catch((errors) => console.log(errors));
-    }
-  }
+    logout() {
+      this.$http
+        .get("/api/logout")
+        .then(() => {
+          this.$router.push("/login");
+        })
+        .catch((errors) => console.error(errors));
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

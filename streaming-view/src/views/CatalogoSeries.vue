@@ -6,7 +6,7 @@
     </b-button>
 
     <section v-if="errored">
-      <p>Não estamos conseguindo acessar suas séries no momento!</p>
+      <p>Não estamos conseguindo acessar suas Séries no momento!</p>
     </section>
 
     <div v-else>
@@ -36,10 +36,8 @@
           <b-button v-on:click="editSerieModal(linha.item)">Editar série</b-button>
         </template>
       </b-table>
-
     </div>
 
-    <!-- Edit modal -->
     <b-modal
       v-bind:id="editModal.id"
       size="xl"
@@ -58,27 +56,21 @@
   </div>
 </template>
 
-
 <script>
-
 // import axios from "axios";
-import MinhaSerieEditor from "@/components/MinhaSerieEditor.vue";
+import MinhaSerieEditor from "@/components/MinhaSerieEditor";
 export default {
-  name: "CatalogoSeries",
+  name: "MinhaSerie",
   components: {
     MinhaSerieEditor
   },
   data() {
     return {
-      userData: {
-        id: "",
-        nome: "",
-      },
       series: [],
       campos: [],
       editModal: {
         id: "edit-modal",
-        title: "Edite sua série",
+        title: "Edite sua serie",
         content: "",
         callback: "",
         serieCreated: false,
@@ -101,9 +93,8 @@ export default {
         this.$http
           .post("/catalogo-series", data.serie_model)
           .then(response => {
-            console.log("Criada com sucesso!", response.data);
+            console.log("Criado com sucesso!", response.data);
             this.editModal.serieCreated = true;
-          
           })
           .catch(error => {
             console.log(error);
@@ -114,16 +105,15 @@ export default {
       this.$root.$emit("bv::show::modal", this.editModal.id);
     },
     editSerieModal(serie) {
-      this.editModal.title = 'Edite a série "' + serie.titulo + '"';
+      this.editModal.title = 'Edite a Série "' + serie.titulo + '"';
       this.editModal.content = serie;
       //Callback para editar a série via PUT
-      this.editModal.callback = (serie, data) => {
+      this.editModal.callback = (event, data) => {
         this.$http
           .put("/catalogo-series", data.serie_model)
           .then(response => {
-            console.log("Editada com sucesso!", response.data);
+            console.log("Editado com sucesso!", response.data);
             this.editModal.serieEdited = true;
-            
           })
           .catch(error => {
             console.log(error);
@@ -142,32 +132,18 @@ export default {
     },
     closeModal() {
       this.$bvModal.hide(this.editModal.id);
-    },
-    getUserData(){
-      this.$$http.get("/api/user")
-      .then(response => {
-        this.userData = response.data;
-      }).error(error => {
-        console.log("Erro ou falta de permissão para acessar a página!");
-        console.log(error);
-        this.$router.push("/");
-      });
     }
   },
   mounted() {
-
-    this.getUserData();
     //axios
     this.$http
       //.get(url + eventPath)
       .get("/catalogo-series")
       .then(response => {
         response.data.forEach(item => {
-          //Campos da categoria
-          let catKeys = Object.keys(item.categoria);
+          let endKeys = Object.keys(item.categoria);
           let categoriaConcat = "";
-          //acumulador para retornar os campos da categoria concatenados
-          categoriaConcat = catKeys.reduce((acc, key, index) => {
+          categoriaConcat = endKeys.reduce((acc, key, index) => {
             let concatValue =
               index != 0 ? ", " + item.categoria[key] : item.categoria[key];
             return acc + concatValue;
@@ -180,7 +156,7 @@ export default {
         this.campos.push("editar");
       })
       .catch(error => {
-        console.log("Error fetching in 'MinhaSerie' page: ", error);
+        console.log("Error fetching in 'MinhasSéries' page: ", error);
         this.errored = true;
       })
       .finally(() => (this.loading = false));
@@ -189,10 +165,10 @@ export default {
 </script>
 
 <style>
-.meus-eventos h1 {
+.minhas-series h1 {
   display: inline;
 }
-.meus-eventos button {
+.minhas-series button {
   margin-left: 4px;
   margin-bottom: 10px;
 }

@@ -1,41 +1,42 @@
 <template>
   <div>
     <img src="../assets/LogoStreaming.png" alt />
+
     <div class="login">
       <b-form @submit="doLogin">
         <b-form-group
-          id="user-label"
-          label="Email: "
+          id="user"
+          label="Usuário"
           label-for="user-input"
-          label-aling="left"
-          description="Digite um email cadastrado:"
+          description="Insira o seu nome de usuário (e-mail)."
+          label-align="left"
         >
           <b-form-input
             id="user-input"
             v-model="login.user"
             type="email"
             required
-            placeholder="Digite o email"
+            placeholder="Nome de usuário"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group
-          id="password-label"
-          label="Senha: "
-          label-for="password-input"
-          label-aling="left"
-          description="Digite uma senha válida:"
+          id="pwd"
+          label="Senha"
+          label-for="pwd-input"
+          label-align="left"
+          description="Insira a sua senha."
         >
           <b-form-input
-            id="password-input"
+            id="pwd-input"
             v-model="login.pwd"
             type="password"
             required
-            placeholder="Digite a senha"
+            placeholder="Senha de login"
           ></b-form-input>
         </b-form-group>
 
-        <b-button type="submit">Entrar</b-button>
+        <b-button type="submit" variant="success">Entrar</b-button>
       </b-form>
     </div>
   </div>
@@ -47,27 +48,28 @@ export default {
   data() {
     return {
       login: {
-        user: "user@email.com",
-        senha: "123",
+        email: "",
+        pwd: "",
       },
     };
   },
-
   methods: {
-    doLogin() {
-      let dataLogin = {
-        user: this.login.user,
-        pwd: this.login.senha,
+    doLogin(event) {
+      event.preventDefault();
+      let login = {
+        email: "user@email.com",
+        pwd: "123",
       };
       this.$http
-        .post("/api/login", dataLogin)
+        .post("/api/login", login) //substituir depois por this.login
         .then((response) => {
           console.log(response.data);
-          this.$router.push("/login");
+          console.log(response);
+          this.$router.push("/");
         })
-        .catch((errors) => {
-          console.log("Falha no login");
-          console.log(errors);
+        .catch((error) => {
+          console.error("Não foi possível realizar o Login");
+          console.error(error);
         });
     },
   },
@@ -75,14 +77,17 @@ export default {
 </script>
 
 <style>
+img {
+  margin-top: 50px;
+}
 .login {
-  margin: 50px 350px 0px 350px;
-  padding: 50px 350px 10px 350px;
-  border-radius: 10px;
+  margin: 20px 350px 0px 350px;
+  padding: 50px 50px 20px 50px;
+  border-radius: 20px;
   background-color: #CCC;
 }
 .login button {
-  background-color: rgb(98, 202, 202);
+  background-color: rgb(187, 160, 178);
   border-color: gray;
 }
 </style>

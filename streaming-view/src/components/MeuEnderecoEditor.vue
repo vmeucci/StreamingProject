@@ -1,11 +1,36 @@
 <template>
   <div>
     <b-form @submit="onSubmit">
-      <b-form-group label="Nome da categoria:" label-for="categoria-nome">
+      <b-form-group label="Logradouro do endereço:" label-for="endereco-logradouro">
         <b-form-input
-          id="categoria-nome"
-          v-model="categoria_model.nome"
-          :placeholder="categoria_model.nome"
+          id="endereco-logradouro"
+          v-model="endereco_model.logradouro"
+          :placeholder="endereco_model.logradouro"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Número do endereço:" label-for="endereco-numero">
+        <b-form-input
+          id="endereco-numero"
+          v-model="endereco_model.numero"
+          :placeholder="endereco_model.numero"
+        ></b-form-input>
+      </b-form-group>
+
+      
+      <b-form-group label="Bairro:" label-for="endereco-bairro">
+        <b-form-input
+          id="endereco-bairro"
+          v-model="endereco_model.bairro"
+          :placeholder="endereco_model.bairro"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="CEP:" label-for="endereco-cep">
+        <b-form-input
+          id="endereco-cep"
+          v-model="endereco_model.cep"
+          :placeholder="endereco_model.cep"
         ></b-form-input>
       </b-form-group>
 
@@ -17,30 +42,39 @@
 <script>
 export default {
   props: {
-    categoriaToEdit: {
-        nome: String,   
+    enderecoToEdit: {
+        logradouro: String,
+        numero: Number,
+        bairro: String,
+        cep: String   
     },
     callback: Function
   },
 
   data() {
     return {
-      categoria_model: {
-        nome: "Nome da categoria: ",
+      endereco_model: {
+        logradouro: "Logradouro do endereço: ",
+        numero: 20,
+        bairro: "bairro",
+        cep: "CEP",
       },
     };
   },
   mounted(){
-      if(this.categoriaToEdit){
-          this.categoria_model.nome = this.categoriaToEdit.nome;
+      if(this.enderecoToEdit){
+          this.endereco_model.logradouro = this.enderecoToEdit.logradouro;
+          this.endereco_model.numero = this.enderecoToEdit.numero;
+          this.endereco_model.bairro = this.enderecoToEdit.bairro;
+          this.endereco_model.cep = this.enderecoToEdit.cep;
 
       }
   },
   methods: {
     onSubmit() {
         this.callback({
-            id: this.categoriaToEdit, 
-            data: this.categoria_model});
+            id: this.enderecoToEdit, 
+            data: this.endereco_model});
     },
   },
 };
